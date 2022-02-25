@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: advertising-platform
+  datasource:
+    url: jdbc:postgresql://localhost:5432/advertising
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: validate
+    open-in-view: true
+    generate-ddl: true
+  jackson:
+    default-property-inclusion: non_absent
+    deserialization:
+      ACCEPT_FLOAT_AS_INT: false
+  liquibase:
+    change-log: db/changelog/changelog-master.xml

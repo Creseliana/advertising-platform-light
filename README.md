@@ -1,1 +1,1 @@
-# advertising-platform-light
+# Advertising platform
