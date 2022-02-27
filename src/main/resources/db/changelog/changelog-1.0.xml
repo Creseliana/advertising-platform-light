@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_users">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="users_id_pk"/>
+            </column>
+            <column name="username" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="users_username_unique"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="users_email_unique"/>
+            </column>
+            <column name="phone_number" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="users_phone_number_unique"/>
+            </column>
+            <column name="active" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_index_users_username">
+        <createIndex
+            indexName="users_username_index"
+            tableName="users">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_roles">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="roles_id_pk"/>
+            </column>
+            <column name="type" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="roles_type_unique"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="insert_roles_user">
+        <insert tableName="roles">
+            <column name="type" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="insert_roles_admin">
+        <insert tableName="roles">
+            <column name="type" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_user_role">
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_unique_user_role">
+        <addUniqueConstraint
+            columnNames="user_id, role_id"
+            constraintName="user_role_unique"
+            tableName="user_role"/>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_fk_user_role">
+        <addForeignKeyConstraint
+            baseColumnNames="user_id"
+            baseTableName="user_role"
+            constraintName="user_role_user_id_fk"
+            referencedColumnNames="id"
+            referencedTableName="users"/>
+        <addForeignKeyConstraint
+            baseColumnNames="role_id"
+            baseTableName="user_role"
+            constraintName="user_role_role_id_fk"
+            referencedColumnNames="id"
+            referencedTableName="roles"/>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_currencies">
+        <createTable tableName="currencies">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="currencies_id_pk"/>
+            </column>
+            <column name="code" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="currencies_code_unique"/>
+            </column>
+            <column name="quantum" type="decimal(16, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_categories">
+        <createTable tableName="categories">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="categories_id_pk"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"
+                    unique="true" uniqueConstraintName="categories_name_unique"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_advertisements">
+        <createTable tableName="advertisements">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="advertisements_id_pk"/>
+            </column>
+            <column name="created_by" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price" type="decimal(16, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="closed" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_fk_advertisements">
+        <addForeignKeyConstraint
+            baseColumnNames="category_id"
+            baseTableName="advertisements"
+            constraintName="advertisements_category_id_fk"
+            referencedColumnNames="id"
+            referencedTableName="categories"/>
+        <addForeignKeyConstraint
+            baseColumnNames="currency_id"
+            baseTableName="advertisements"
+            constraintName="advertisements_currency_id_fk"
+            referencedColumnNames="id"
+            referencedTableName="currencies"/>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_check_advertisements_price">
+        <sql dbms="postgresql" endDelimiter=";">
+            ALTER TABLE advertisements
+                ADD CONSTRAINT advertisements_price_check
+                    CHECK (price > 0)
+        </sql>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="create_table_comments">
+        <createTable tableName="comments">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="comments_id_pk"/>
+            </column>
+            <column name="ad_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Valeria Sterzhanova" id="add_fk_comments">
+        <addForeignKeyConstraint
+            baseColumnNames="ad_id"
+            baseTableName="comments"
+            constraintName="comments_ad_id_fk"
+            referencedColumnNames="id"
+            referencedTableName="advertisements"/>
+    </changeSet>
+</databaseChangeLog>
