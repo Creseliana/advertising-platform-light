@@ -14,6 +14,9 @@ import lombok.Setter;
 @Schema(description = "Объявление (развернуто)")
 public class AdvertisementBaseResponse {
 
+    @Schema(description = "Идентификатор")
+    private Long id;
+
     @Schema(description = "Ник автора")
     private String authorUsername;
 

@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -44,7 +44,7 @@ public class AdvertisementController {
     @Operation(operationId = "edit-ad", summary = "Редактирование объявления")
     public AdvertisementBaseResponse edit(@Valid @RequestBody AdvertisementEditRequest ad,
         Authentication authentication) {
-        return advertisementFacade.edit(ad, authentication.getUsername());
+        return advertisementFacade.edit(ad, authentication.getName());
     }
 
     @GetMapping("search/{id}")

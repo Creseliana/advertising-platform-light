@@ -17,6 +17,10 @@ import lombok.Setter;
 @Schema(description = "Редактирование объявления")
 public class AdvertisementEditRequest {
 
+    @NotNull
+    @Schema(description = "Идентификатор", required = true)
+    private Long id;
+
     @NotNull(message = "Advertisement category id must not be null")
     @Schema(description = "Идентификатор категории", required = true)
     private Long categoryId;

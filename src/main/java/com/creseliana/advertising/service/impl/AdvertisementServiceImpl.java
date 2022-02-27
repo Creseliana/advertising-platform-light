@@ -29,11 +29,24 @@ public class AdvertisementServiceImpl extends
     }
 
     @Override
+    public Advertisement save(Advertisement entity) {
+        entity.setDeleted(false);
+        entity.setClosed(false);
+        return this.findById(super.save(entity).getId());
+    }
+
+    @Override
     public Advertisement update(Advertisement ad, String username) {
-        if (!ad.getAuthor().equals(username)) {
+        Advertisement editAd = this.findById(ad.getId());
+        if (!editAd.getAuthor().equals(username)) {
             throw new AccessDeniedException(MSG_ADVERTISEMENT_EDIT_FORBIDDEN);
         }
-        return repository.save(ad);
+        editAd.setCategory(ad.getCategory());
+        editAd.setTitle(ad.getTitle());
+        editAd.setDescription(ad.getDescription());
+        editAd.setPrice(ad.getPrice());
+        editAd.setCurrency(ad.getCurrency());
+        return repository.save(editAd);
     }
 
     @Override

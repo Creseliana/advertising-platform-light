@@ -8,6 +8,7 @@ import com.creseliana.advertising.model.dto.advertisement.AdvertisementEditReque
 import com.creseliana.advertising.model.dto.advertisement.AdvertisementShortResponse;
 import com.creseliana.advertising.service.AdvertisementService;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,12 @@ public class AdvertisementFacadeImpl extends AbstractFacade implements Advertise
     private final AdvertisementService advertisementService;
     private final ModelMapper modelMapper;
 
+    @PostConstruct
+    public void init() {
+        modelMapper.createTypeMap(AdvertisementCreateRequest.class, Advertisement.class)
+            .addMappings(mapper -> mapper.skip(Advertisement::setId));
+    }
+
     @Override
     public AdvertisementBaseResponse create(AdvertisementCreateRequest advertisementRequest) {
         Advertisement ad = modelMapper.map(advertisementRequest, Advertisement.class);
@@ -32,7 +39,8 @@ public class AdvertisementFacadeImpl extends AbstractFacade implements Advertise
     public AdvertisementBaseResponse edit(AdvertisementEditRequest advertisementRequest,
         String username) {
         Advertisement ad = modelMapper.map(advertisementRequest, Advertisement.class);
-        return modelMapper.map(advertisementService.update(ad), AdvertisementBaseResponse.class);
+        return modelMapper.map(advertisementService.update(ad, username),
+            AdvertisementBaseResponse.class);
     }
 
     @Override

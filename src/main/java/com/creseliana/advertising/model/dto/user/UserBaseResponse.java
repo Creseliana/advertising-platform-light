@@ -13,6 +13,9 @@ import lombok.Setter;
 @Schema(description = "Аккаунт пользователя")
 public class UserBaseResponse {
 
+    @Schema(description = "Идентификатор")
+    private Long id;
+
     @Schema(description = "Ник")
     private String username;
 

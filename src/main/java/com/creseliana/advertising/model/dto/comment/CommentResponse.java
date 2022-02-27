@@ -13,6 +13,9 @@ import lombok.Setter;
 @Schema(description = "Комментарий")
 public class CommentResponse {
 
+    @Schema(description = "Идентификатор")
+    private Long id;
+
     @Schema(description = "Ник пользователя")
     private String authorUsername;
 

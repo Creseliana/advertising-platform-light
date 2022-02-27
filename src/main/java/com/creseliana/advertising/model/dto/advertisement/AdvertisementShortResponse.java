@@ -14,7 +14,7 @@ import lombok.Setter;
 @Schema(description = "Объявление (кратко)")
 public class AdvertisementShortResponse {
 
-    @Schema(description = "Идентификатор объявления")
+    @Schema(description = "Идентификатор")
     private Long id;
 
     @Schema(description = "Ник автора")

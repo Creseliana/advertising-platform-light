@@ -22,7 +22,7 @@ public class CategoryFacadeImpl extends AbstractFacade implements CategoryFacade
     @Override
     public CategoryDto create(CategoryDto categoryRequest) {
         Category category = modelMapper.map(categoryRequest, Category.class);
-        return modelMapper.map(category, CategoryDto.class);
+        return modelMapper.map(categoryService.save(category), CategoryDto.class);
     }
 
     @Override

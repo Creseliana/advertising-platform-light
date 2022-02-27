@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/advertisements/search**").permitAll()
+            .antMatchers("/swagger-ui**").permitAll()
             .antMatchers("/currencies**").hasAuthority(ROLE_ADMIN)
             .antMatchers("/categories**").hasAuthority(ROLE_ADMIN)
             .antMatchers(HttpMethod.DELETE, "/users**").hasAuthority(ROLE_ADMIN)

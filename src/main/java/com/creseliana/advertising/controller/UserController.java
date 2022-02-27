@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +41,7 @@ public class UserController {
     @Operation(operationId = "edit-user", summary = "Редактирование данных пользователя")
     public UserBaseResponse edit(@Valid @RequestBody UserEditRequest user,
         Authentication authentication) {
-        return userFacade.edit(user, authentication.getUsername());
+        return userFacade.edit(user, authentication.getName());
     }
 
     @GetMapping("username/{username}")

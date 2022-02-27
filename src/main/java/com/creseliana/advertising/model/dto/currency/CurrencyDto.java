@@ -17,7 +17,7 @@ import lombok.Setter;
 @Schema(description = "Валюта")
 public class CurrencyDto {
 
-    @Schema(description = "Идентификатор валюты")
+    @Schema(description = "Идентификатор")
     private Long id;
 
     @NotBlank(message = "Currency code must contain at least one character")

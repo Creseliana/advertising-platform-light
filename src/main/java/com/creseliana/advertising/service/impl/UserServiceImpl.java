@@ -61,10 +61,15 @@ public class UserServiceImpl extends
 
     @Override
     public User update(User user, String username) {
-        if (!user.getUsername().equals(username)) {
+        User editUser = this.findById(user.getId());
+        if (!editUser.getUsername().equals(username)) {
             throw new AccessDeniedException(MSG_USER_EDIT_FORBIDDEN);
         }
-        return repository.save(user);
+        editUser.setFirstName(user.getFirstName());
+        editUser.setLastName(user.getLastName());
+        editUser.setEmail(user.getEmail());
+        editUser.setPhoneNumber(user.getPhoneNumber());
+        return repository.save(editUser);
     }
 
     @Override
